@@ -1,9 +1,11 @@
-CC = gcc -g 
+#supress warnings so that we can debug them!
+CC = gcc -w -g -std=c99
 
-gameOfLife: gameFunctions.o gameOfLife.c structures.h
-	$(CC) gameOfLife.c gameFunctions.o -o gameOfLife.x -lncurses
+gameOfLife: gameUtils.o gameOfLife.c
+	$(CC) gameOfLife.c gameUtils.o -o gameOfLife.x -lncurses
 
-gameFunctions.o: gameFunctions.c gameFunctions.h structures.h
-	$(CC) -c -o gameFunctions.o gameFunctions.c
+gameFunctions.o: gameUtils.c gameUtils.h
+	$(CC) -c -o gameUtils.o gameUtils.c
+
 clean:
 	rm -f *.o *~ gameOfLife.x

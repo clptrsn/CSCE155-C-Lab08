@@ -1,81 +1,85 @@
-#include "gameFunctions.h"
-#include "structures.h"
 #include <unistd.h>
 #include <ncurses.h>
 
-//Assumes the given cell is within the array bounds
-void placeBeacon(status** gameBoard, coordinate cell);
-void placeToad(status** gameBoard, coordinate cell);
-void placeGlider(status** gameBoard, coordinate cell);
+#include "gameUtils.h"
 
-int main(int argc, char *argv[])
-{
-    const int size = 50;
-    int ticksPerSec = 3;
-    status** board = NULL;
-    createGameBoard(size);
-    coordinate cell;
+/**
+ * Place a beacon at the given cell
+ */
+void placeBeacon(Status** gameBoard, Coordinate cell);
 
-    //Initializes the board to have some living cells
-    cell.x = 0;
-    cell.y = 0;
-    placeBeacons(board, cell);
+/**
+ * Place a toad at the given cell
+ */
+void placeToad(Status** gameBoard, Coordinate cell);
 
-    cell.x = 10;
-    cell.y = 5;
-    placeToad(board, cell);
+/**
+ * Place a glider at the given cell
+ */
+void placeGlider(Status** gameBoard, Coordinate cell);
 
-    cell.x = 15;
-    cell.y = 15;
-    placeGlider(board,cell);
+int main(int argc, char* argv[]) {
+  const int size = 50;
+  int ticksPerSec = 3;
+  Status** board = NULL;
+  createGameBoard(size);
+  Coordinate cell;
 
-    //Initialize Ncurses Screen
-    initscr();
+  // Initializes the board to have some living cells
+  cell.x = 0;
+  cell.y = 0;
+  placeBeacons(board, cell);
 
-    while (true)
-    {
-        clear();
-        refresh();
-        displayBoard(board, size, 5);
-        refresh();
-        calculateNextIteration(board, size);
-        usleep(1000000 / ticksPerSec);
-    }
+  cell.x = 10;
+  cell.y = 5;
+  placeToad(board, cell);
 
-    //Close Ncurses Screen
-    endwin();
+  cell.x = 15;
+  cell.y = 15;
+  placeGlider(board, cell);
 
-    return 0;
+  // Initialize Ncurses Screen
+  initscr();
+
+  while (true) {
+    clear();
+    refresh();
+    displayBoard(board, size, 5);
+    refresh();
+    calculateNextIteration(board, size);
+    usleep(1000000 / ticksPerSec);
+  }
+
+  // Close Ncurses Screen
+  endwin();
+
+  return 0;
 }
 
-void placeBeacon(status** gameBoard, coordinate cell)
-{
-    gameBoard[cell.x][cell.y] = ALIVE;
-    gameBoard[cell.x+1][cell.y] = ALIVE;
-    gameBoard[cell.x][cell.y+1] = ALIVE;
+void placeBeacon(Status** gameBoard, Coordinate cell) {
+  gameBoard[cell.x][cell.y] = ALIVE;
+  gameBoard[cell.x + 1][cell.y] = ALIVE;
+  gameBoard[cell.x][cell.y + 1] = ALIVE;
 
-    gameBoard[cell.x+3][cell.y+3] = ALIVE;
-    gameBoard[cell.x+3][cell.y+2] = ALIVE;
-    gameBoard[cell.x+2][cell.y+3] = ALIVE;
+  gameBoard[cell.x + 3][cell.y + 3] = ALIVE;
+  gameBoard[cell.x + 3][cell.y + 2] = ALIVE;
+  gameBoard[cell.x + 2][cell.y + 3] = ALIVE;
 }
 
-void placeToad(status** gameBoard, coordinate cell)
-{
-    gameBoard[cell.x+1][cell.y] = ALIVE;
-    gameBoard[cell.x+2][cell.y] = ALIVE;
-    gameBoard[cell.x+3][cell.y] = ALIVE;
+void placeToad(Status** gameBoard, Coordinate cell) {
+  gameBoard[cell.x + 1][cell.y] = ALIVE;
+  gameBoard[cell.x + 2][cell.y] = ALIVE;
+  gameBoard[cell.x + 3][cell.y] = ALIVE;
 
-    gameBoard[cell.x][cell.y+1] = ALIVE;
-    gameBoard[cell.x+1][cell.y+1] = ALIVE;
-    gameBoard[cell.x+2][cell.y+1] = ALIVE;
+  gameBoard[cell.x][cell.y + 1] = ALIVE;
+  gameBoard[cell.x + 1][cell.y + 1] = ALIVE;
+  gameBoard[cell.x + 2][cell.y + 1] = ALIVE;
 }
 
-void placeGlider(status** gameBoard, coordinate cell)
-{
-    gameBoard[cell.x][cell.y+1] = ALIVE;
-    gameBoard[cell.x+1][cell.y+2] = ALIVE;
-    gameBoard[cell.x+2][cell.y+2] = ALIVE;
-    gameBoard[cell.x+2][cell.y+1] = ALIVE;
-    gameBoard[cell.x+2][cell.y] = ALIVE;
+void placeGlider(Status** gameBoard, Coordinate cell) {
+  gameBoard[cell.x][cell.y + 1] = ALIVE;
+  gameBoard[cell.x + 1][cell.y + 2] = ALIVE;
+  gameBoard[cell.x + 2][cell.y + 2] = ALIVE;
+  gameBoard[cell.x + 2][cell.y + 1] = ALIVE;
+  gameBoard[cell.x + 2][cell.y] = ALIVE;
 }
-
