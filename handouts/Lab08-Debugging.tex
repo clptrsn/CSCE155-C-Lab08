@@ -313,16 +313,16 @@ The basic rules of this game can be found here:
 
 \begin{minted}{text}
 #0  0x0000000100001056 in placeBeacon (gameBoard=0x0, cell=...) 
-	at gameOfLife.c:52
+	at gameOfLife.c:60
 #1  0x0000000100000f7c in main (argc=1, argv=0x7fff5fbff318) at 
 	gameOfLife.c:21
 \end{minted}
 
 	The bottom function (\mintinline{c}{main}) is the first function that was called.  
 	\mintinline{c}{placeBeacon} is the second function, and also where the crash 
-	occurred (line 52).  However, this is a bit deceiving.  Notice that the first 
+	occurred (line 60).  However, this is a bit deceiving.  Notice that the first 
 	argument to \mintinline{c}{placeBeacon} is the address \mintinline{text}{0x0}, which corresponds
-	to \mintinline{c}{NULL}.  On line 52, this address is dereferenced, but clearly 
+	to \mintinline{c}{NULL}.  On line 60, this address is dereferenced, but clearly 
 	something happened before \mintinline{c}{placeBeacon} that caused the 
 	\mintinline{c}{gameBoard} to be \mintinline{c}{NULL}.
   \item To find out where the error originated from, we'll step through the program 
@@ -334,7 +334,7 @@ The basic rules of this game can be found here:
 	line by line.  The \mintinline{text}{next} command will execute entire functions 
 	(i.e., it won't execute the function line by line), while 
 	\mintinline{text}{step} will ``step into'' a function, and execute each line of that 
-	function one at a time.  Use \mintinline{text}{next} until you arrive at line 19, 
+	function one at a time.  Use \mintinline{text}{next} until you arrive at line 31, 
 	and view the contents of the board variable by typing \mintinline{text}{print board}.  Notice 
 	that even after \mintinline{text}{createGameBoard} was executed, \mintinline{text}{board} 
 	remained \mintinline{text}{NULL}.  Now we've can narrow the problem down 
